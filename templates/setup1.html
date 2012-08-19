@@ -1,0 +1,117 @@
+<!-- TO DO's
+- Add that email addresses will never be used for marketing
+- Verify input on site
+-->
+
+{% extends 'base.html' %}
+
+{% block title %}Setup{% endblock %}
+
+{% block head %}
+<script src="/js/jquery.min.js"></script>
+
+<script type='text/javascript'>
+
+var i = $('#setup_team tr').length + 4;
+
+$(function() {
+ 
+    addDiv = $('div#add');
+
+    //add input
+    addDiv.click(function() {
+        if(i <= 10) {
+            $('<tr class="highlight tm_row"><td></td><td><input type="text" class="tm_first_name" placeholder="First Name" /></td><td><input type="text" class="tm_last_name" placeholder="Last Name" /></td><td><input type="text" class="tm_email" placeholder="Email" /></td><td><div id="remove" onclick="removeRow(this)" ><img id="del_tm" src="/images/delete-icon.png" width="20px" /></div></td></tr>').fadeIn("slow").appendTo('#setup_team');
+
+
+            if(i == 10) {
+                addDiv.hide();
+                $('div#notification').append($('<div id="max"><p><img src="/images/info-icon.png" width="17px" style="margin-right:10px" />You have reached the maximum size</p></div>'));
+                $('div#notification').attr('style', '250px');
+            }
+            i++;
+            setTotal();
+            return false;
+        }
+    });  
+    setTotal();
+});
+
+
+function removeRow(element) { 
+            if(i <= 11) {
+                $(element).parent().parent().remove();
+
+                if(i == 11) {
+                    $('div#max').remove();
+                    $('div#add').show();
+                }
+            i--;
+            setTotal();
+            }
+}
+
+
+function setTotal() {
+    $('#rowcount').empty();
+    $('#rowcount').append($('#setup_team tr').length - 1 + " Team Members");
+    $('#members').attr('value', $('#setup_team tr').length);
+
+}
+
+function submitForm() {
+    $('.tm_row').each(function(index){
+        $(this).find(".tm_first_name").attr('name', 'tm' + (index+1) + '_first_name');
+        $(this).find(".tm_last_name").attr('name', 'tm' + (index+1) + '_last_name');
+        $(this).find(".tm_email").attr('name', 'tm' + (index+1) + '_email');
+    });
+}
+
+</script>
+{% endblock %}
+
+{% block content %}
+    <h1>1. Add Team Members</h1> 
+<br />
+<div id="form_input">
+<form method="post" action="/scripts/teamadd">
+		
+	<table id="setup_team">
+			<tr>
+				<td></td>
+				<td><strong>First Name</strong></td>
+				<td><strong>Last Name</strong></td>
+				<td><strong>Email</strong></td>
+				<td></td>
+			</tr>
+			<tr class="highlight tm_row">
+				<td></td>
+				<td><input type="text" class="tm_first_name" placeholder="First Name" /></td>
+				<td><input type="text" class="tm_last_name" placeholder="Last Name" /></td>
+				<td><input type="text" class="tm_email" placeholder="Email" /></td>
+				<td></td>
+			</tr>
+            <tr class="highlight tm_row">
+                <td></td>
+                <td><input type="text" class="tm_first_name" placeholder="First Name" /></td>
+                <td><input type="text" class="tm_last_name" placeholder="Last Name" /></td>
+                <td><input type="text" class="tm_email" placeholder="Email" /></td>
+                <td></td>
+            </tr>
+            <tr class="highlight tm_row">
+                <td></td>
+                <td><input type="text" class="tm_first_name" placeholder="First Name" /></td>
+                <td><input type="text" class="tm_last_name" placeholder="Last Name" /></td>
+                <td><input type="text" class="tm_email" placeholder="Email" /></td>
+                <td></td>
+            </tr>
+			</table>
+
+			<div id="notification" style="margin-left:20px"><div id="rowcount"></div><div id="add" style="cursor: pointer; width:250px;"><p><img src="/images/plus-icon.png" width="20px" style="margin-right:10px" /> Add another person</p></div></div>
+
+            <input type="text" id="members" name="members" style="visibility:hidden" /><br/>
+      		<div class="submit_button"><input type="submit" value="Next" onclick="submitForm()" /></div>
+</form>
+</div>        
+		
+{% endblock %}

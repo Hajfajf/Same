@@ -1,0 +1,4 @@
+cron:
+- description: send surveys
+  url: /tasks/send
+  schedule: every 60 minutes

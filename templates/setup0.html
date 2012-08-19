@@ -1,0 +1,56 @@
+<!-- TO DO's
+- Add that email addresses will never be used for marketing
+- Verify input on site
+-->
+
+{% extends 'base.html' %}
+
+{% block title %}Setup{% endblock %}
+
+{% block head %}
+<script src="/js/jquery.min.js"></script>
+
+<script type='text/javascript'>
+
+</script>
+{% endblock %}
+
+{% block content %}
+<h1>Account Setup</h1> 
+<br />
+<div id="form_input">
+<form action="/scripts/owneradd" method="post">
+
+		<table id="setup_owner">
+			<tr class="highlight">
+				<td><strong>First Name</strong></td>
+				<td><input type="text" name="first_name" placeholder="First Name" /></td>
+			</tr>
+			<tr class="highlight">
+				<td><strong>Last Name</strong></td>
+				<td><input type="text" name="last_name" placeholder="Last Name" /></td>
+			</tr>
+            <tr class="highlight">
+                <td><strong>Company</strong></td>
+                <td><input type="text" name="company" placeholder="Company" /></td>
+            </tr>
+            <tr class="highlight">
+                <td><strong>Department</strong></td>
+                <td><input type="text" name="department" placeholder="Department" /></td>
+            </tr>
+            <tr class="highlight">
+                <td><strong>Project Name</strong></td>
+                <td><input type="text" name="project" placeholder="Project Name" /></td>
+            </tr>
+            <tr class="highlight">
+                <td><strong>Email</strong></td>
+                <td><input type="text" name="email" placeholder="Email" /></td>
+            </tr>
+		</table>
+
+		<br />
+		<div class="submit_button"><input type="submit" value="Next" /><div>
+</form>
+</div>        
+		
+{% endblock %}

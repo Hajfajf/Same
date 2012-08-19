@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}Confirmed{% endblock %}
+
+{% block head %}
+<script src="/js/jquery.min.js"></script>
+
+<script type='text/javascript'>
+</script>
+
+{% endblock %}
+
+{% block content %}
+    <h1>Overview</h1> 
+<br />
+<div id="setup_preview" style="float:right"></div>
+<div id="form_input">
+<form method="post" action="/scripts/confirm">
+
+		<table id="setup_confirmation">
+			<tr>
+				<td colspan="2"><strong>Setup</strong><hr/></td>
+			</tr>
+			<tr>
+				<td><strong>Owner</strong></td>
+				<td>{{ project.owner_name }}</td>
+			</tr>
+			<tr>
+				<td><strong>Company</strong></td>
+				<td>{{ project.company }}</td>
+			</tr>
+			<tr>
+				<td><strong>Project Name</strong></td>
+				<td>{{ project.name }}</td>
+			</tr>
+			<tr>
+				<td><strong>Team Members</strong></td>
+				<td>{{ project.member_nr }}</td>
+			</tr>
+			<tr>
+				<td><strong>Schedule</strong></td>
+				<td>{{ survey.send_frequency }} on {{ survey.send_day }} at {{ survey.send_time }}</td>
+			</tr>
+			<tr>
+				<td colspan="2"><br/><strong>Ratings</strong><hr/></td>
+			</tr>
+			<tr>
+				<td colspan="2">1. {{ survey.rt1_name }}</td>
+			</tr>
+			{% if survey.rt2_name  %}
+			<tr>
+				<td colspan="2">2. {{ survey.rt2_name }}</td>
+			</tr>
+			{% endif %}
+			{% if survey.rt3_name  %}
+			<tr>
+				<td colspan="2">3. {{ survey.rt3_name }}</td>
+			</tr>
+			{% endif %}
+			{% if survey.rt4_name  %}
+			<tr>
+				<td colspan="2">4. {{ survey.rt4_name }}</td>
+			</tr>
+			{% endif %}
+			{% if survey.rt5_name  %}
+			<tr>
+				<td colspan="2">5. {{ survey.rt5_name }}</td>
+			</tr>
+			{% endif %}
+			{% if survey.rt6_name  %}
+			<tr>
+				<td colspan="2">6. {{ survey.rt6_name }}</td>
+			</tr>
+			{% endif %}								
+		</table>
+		<input type="submit" value="Done" />
+
+</form>
+</div>
+{% endblock %}

@@ -1,0 +1,128 @@
+<!-- TO DOs
+- Add verification of input
+- Add example of form on right
+- Register ratings in a seperate databse model
+-->
+
+{% extends 'base.html' %}
+
+{% block title %}Setup{% endblock %}
+
+{% block head %}
+<script src="/js/jquery.min.js"></script>
+
+<script type='text/javascript'>
+
+var i = $('#setup_ratings tr').length + 4;
+
+$(function() {
+ 
+    addDiv = $('div#add');
+
+    //add input
+    addDiv.click(function() {
+        if(i <= 7) {
+            $('<tr class="highlight rt_row custRow"><td></td><td><input type="text" class="rt_name" size="20" placeholder="Name" onchange="checkboxEntry()" style="margin-left:-3px" /></td><td><input type="text" class="rt_desc" size="43" placeholder="Description" onchange="checkboxEntry()" style="margin-left:-3px" /></td><td><div id="remove" onclick="removeRow(this)" style="cursor:pointer" ><img id="del_rt" src="/images/delete-icon.png" width="20px" /></div></td><td><input type="checkbox" class="mainCheck" /></td></tr>').fadeIn("slow").appendTo('#setup_ratings');
+
+            if(i == 7) {
+                addDiv.hide();
+                $('div#notification').append($('<div id="max"><p><img src="/images/info-icon.png" width="17px" style="margin-right:10px" />You have reached the maximum number of custom ratings</p></div>'));
+                $('div#notification').attr('style', '250px');
+            }
+            i++;
+            return false;
+        }
+    });  
+});
+
+function removeRow(element) { 
+            if(i <= 8) {
+                $(element).parent().parent().remove();
+
+                if(i == 8) {
+                    $('div#max').remove();
+                    $('div#add').show();
+                }
+            i--;
+            }
+}
+
+function checkboxEntry() {
+    $('.custRow').each(function(){
+        if ($(this).find('.rt_name').attr('value') != "" && $(this).find('.rt_desc').attr('value') != "") {
+                $(this).find('.mainCheck').attr('checked', 'checked')
+                } 
+        else {
+                $(this).find('.mainCheck').removeAttr('checked')            
+        }
+        });
+}
+
+function submitForm() {
+    var nr = 0
+    $('.rt_row').each(function(index){
+        if($(this).find('.mainCheck').attr('checked') == 'checked' ) {
+                $(this).find('.hiddenCheck').attr('checked', 'checked')
+                $(this).find('.rt_name').attr('name', 'rt' + (nr+1) + '_name');
+                $(this).find('.rt_desc').attr('name', 'rt' + (nr+1) + '_desc');
+                nr++;
+            } 
+            });
+}
+
+</script>
+
+
+{% endblock %}
+
+{% block content %}
+    <h1>2. Choose Ratings</h1> 
+<br />
+<div id="setup_preview" style="float:right"></div>
+<div id="form_input">
+<form method="post" action="/scripts/ratings">
+
+		<table id="setup_ratings">
+			<tr>
+                <td></td>
+                <td width="170px"><strong>Name</strong></td>
+                <td width="300px"><strong>Description</strong></td>
+                <td width="25px"></td>
+                <td></td>
+            </tr>
+            <tr class="highlight rt_row">
+                <td></td>
+				<td>Impact</td>
+                <td>The impact of our work on the client</td>
+                <td><input type="checkbox" class="rt_name hiddenCheck" value="Impact" style="visibility:hidden" /></td>
+                <td><input type="checkbox" class="rt_desc mainCheck" value="The impact of our work on the client" /></td>
+			</tr>
+			<tr class="highlight rt_row">
+                <td></td>
+				<td>Work-Life Balance</td>
+                <td>The balance between work and private</td>
+                <td><input type="checkbox" class="rt_name hiddenCheck" value="Work-Life" style="visibility:hidden" /></td>
+                <td><input type="checkbox" class="rt_desc mainCheck" value="The balance between work and private" /></td>
+			</tr>
+			<tr class="highlight rt_row">
+                <td></td>
+				<td>Learning</td>
+				<td>The level of personal learning</td>
+                <td><input type="checkbox" class="rt_name hiddenCheck" value="Learning" style="visibility:hidden" /></td>
+				<td><input type="checkbox" class="rt_desc mainCheck" value="The level of personal learning" /></td>
+			</tr>
+			<tr class="highlight rt_row">
+                <td></td>
+				<td>Fun</td>				
+				<td>The amount of fun you are having</td>
+                <td><input type="checkbox" class="rt_name hiddenCheck" value="Fun" style="visibility:hidden" /></td>
+				<td><input type="checkbox" class="rt_desc mainCheck" value="The amount of fun you are having" /></td>
+			</tr>
+		</table>	
+			
+        <div id="notification" style="margin-left:15px"><div id="add" style="cursor: pointer; width:250px;"><p><img src="/images/plus-icon.png" width="20px" style="margin-right:10px" /> Add a customized dimension</p></div></div>
+
+		<br/>
+		<div class="submit_button"><input type="submit" value="Next" onclick="submitForm()" /></div>
+</div>
+{% endblock %}

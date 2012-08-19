@@ -1,0 +1,163 @@
+<!-- TO DO:
+- Replace Satisfied by smilies
+- From red to green in table
+- Change highlights to text block
+- Add max characters counter
+- Add text at the top
+- Have unique page for each team member
+-->
+
+{% extends 'base.html' %}
+
+{% block title %}Team Thermometer{% endblock %}
+
+{% block head %}
+<script type='text/javascript'>
+
+function formValidator(){
+	var name = document.getElementById('name');
+	var q1 = document.getElementById('q1');
+	var q2 = document.getElementById('q2');
+	var q3 = document.getElementById('q3');
+	var q4 = document.getElementById('q4');
+	var q5 = document.getElementById('q5');
+	var q6 = document.getElementById('q6');
+	var highlight1 = document.getElementById('highlight1');
+	var miss1 = document.getElementById('miss1');
+	var improve1 = document.getElementById('improve1');
+
+	if(notEmpty(name, "Please enter your name")){
+			if(notEmpty(highlight1, "Please enter at least one highlight")){
+				if(notEmpty(miss1, "Please enter at least one miss")){
+					if(notEmpty(improve1, "Please enter at least one improvement")){
+							return true;
+					}
+				}
+			}
+	}
+	
+	
+	return false;
+	
+}
+
+function notEmpty(elem, helperMsg){
+	if(elem.value.length == 0){
+		alert(helperMsg);
+		elem.focus();
+		return false;
+	}
+	return true;
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<h1>Team Thermometer</h1> 
+
+	<form method="post" action="mailto:jong.vincent@gmail.com" onsubmit="return formValidator()">
+		<hr />
+
+		<table id="rate">
+			<tr>
+				<td><p><strong>Rating</strong></p></td>
+				<td width="60px">Very Unsatisfied</td>
+				<td width="60px">Unsatisfied</td>
+				<td width="60px">Slightly Unsatisfied</td>
+				<td width="60px">Neutral</td>
+				<td width="60px">Slightly Satisfied</td>
+				<td width="60px">Satisfied</td>
+				<td width="60px">Very Satisfied</td>
+			</tr>
+			<tr>
+				<td><p>1. Impact</p></td>
+				<td><input type="radio" name="q1" value="1" /></td>
+				<td><input type="radio" name="q1" value="2" /></td>
+				<td><input type="radio" name="q1" value="3" /></td>
+				<td><input type="radio" name="q1" value="4" /></td>
+				<td><input type="radio" name="q1" value="5" /></td>
+				<td><input type="radio" name="q1" value="6" /></td>
+				<td><input type="radio" name="q1" value="7" /></td>
+			</tr>
+			<tr>
+				<td><p>2. Work-Life Balance</p></td>
+				<td><input type="radio" name="q2" value="1" /></td>
+				<td><input type="radio" name="q2" value="2" /></td>
+				<td><input type="radio" name="q2" value="3" /></td>
+				<td><input type="radio" name="q2" value="4" /></td>
+				<td><input type="radio" name="q2" value="5" /></td>
+				<td><input type="radio" name="q2" value="6" /></td>
+				<td><input type="radio" name="q2" value="7" /></td>
+			</tr>
+			<tr>
+				<td><p>3. Fun (delight in working)</p></td>
+				<td><input type="radio" name="q3" value="1" /></td>
+				<td><input type="radio" name="q3" value="2" /></td>
+				<td><input type="radio" name="q3" value="3" /></td>
+				<td><input type="radio" name="q3" value="4" /></td>
+				<td><input type="radio" name="q3" value="5" /></td>
+				<td><input type="radio" name="q3" value="6" /></td>
+				<td><input type="radio" name="q3" value="7" /></td>
+			</tr>
+			<tr>
+				<td><p>4. Information flow</p></td>
+				<td><input type="radio" name="q4" value="1" /></td>
+				<td><input type="radio" name="q4" value="2" /></td>
+				<td><input type="radio" name="q4" value="3" /></td>
+				<td><input type="radio" name="q4" value="4" /></td>
+				<td><input type="radio" name="q4" value="5" /></td>
+				<td><input type="radio" name="q4" value="6" /></td>
+				<td><input type="radio" name="q4" value="7" /></td>
+			</tr>
+			<tr>
+				<td><p>5. Learning</p></td>
+				<td><input type="radio" name="q5" value="1" /></td>
+				<td><input type="radio" name="q5" value="2" /></td>
+				<td><input type="radio" name="q5" value="3" /></td>
+				<td><input type="radio" name="q5" value="4" /></td>
+				<td><input type="radio" name="q5" value="5" /></td>
+				<td><input type="radio" name="q5" value="6" /></td>
+				<td><input type="radio" name="q5" value="7" /></td>
+			</tr>
+			<tr>
+				<td><p>6. Overall</p></td>
+				<td><input type="radio" name="q6" value="1" /></td>
+				<td><input type="radio" name="q6" value="2" /></td>
+				<td><input type="radio" name="q6" value="3" /></td>
+				<td><input type="radio" name="q6" value="4" /></td>
+				<td><input type="radio" name="q6" value="5" /></td>
+				<td><input type="radio" name="q6" value="6" /></td>
+				<td><input type="radio" name="q6" value="7" /></td>
+			</tr>
+		</table>
+<hr />
+		<table border="0px">
+			<tr>
+				<td rowspan="3" width="160px"><p><strong>Highlights</strong> (max. 100 characters)<br />
+				What did you specifically like in the past week?</p></td>
+				<td><input type="text" name="highlight1" size="45" /></td>
+			</tr>
+		</table>
+		<hr />
+
+		<table border="0px">
+			<tr>
+				<td rowspan="3" width="160px"><p><strong>Misses</strong> (max. 100 characters)<br />
+				What would you have liked to see different?</p></td>
+				<td><input type="text" name="miss1" size="45" /></td>
+			</tr>
+		</table>
+		<hr />
+
+		<table border="0px">
+			<tr>
+				<td rowspan="3" width="160px"><p><strong>Improvements</strong> (max. 100 characters)<br />
+				What should change to make you very satisfied?</p></td>
+				<td><input type="text" name="improve1" size="45" /></td>
+			</tr>
+		</table>
+		<hr />
+		<br />
+		<input type="submit" value="Submit" />
+	</form>
+{% endblock %}

@@ -1,0 +1,85 @@
+<!-- Fix date input (also in main.py) -->
+
+{% extends 'base.html' %}
+
+{% block title %}Setup{% endblock %}
+
+{% block head %}
+<script src="/js/jquery.min.js"></script>
+
+<script type='text/javascript'>
+</script>
+
+{% endblock %}
+
+{% block content %}
+    <h1>3. Schedule</h1> 
+<br />
+<div id="setup_preview" style="float:right"></div>
+<div id="form_input">
+<form method="post" action="/scripts/schedule">
+
+		<table id="setup_settings">
+			<tr>
+				<td><strong>Frequency</strong></td>
+				<td colspan="7"><input type="radio" id="frequency" name="frequency" value="Weekly" checked="checked"/>Weekly</td>
+			</tr>
+			<tr>
+				<td rowspan="2" valign="top"><strong>Day to Send</strong></td>
+				<td>Mon</td>
+				<td>Tue</td>
+				<td>Wed</td>
+				<td>Thu</td>
+				<td>Fri</td>
+				<td>Sat</td>
+				<td>Sun</td>
+			</tr>
+			<tr>
+				<td><input type="radio" id="day" name="day" value="Monday" /></td>
+				<td><input type="radio" id="day" name="day" value="Tuesday" /></td>
+				<td><input type="radio" id="day" name="day" value="Wednesday" /></td>
+				<td><input type="radio" id="day" name="day" value="Thursday" /></td>
+				<td><input type="radio" id="day" name="day" value="Friday" /></td>
+				<td><input type="radio" id="day" name="day" value="Saturday" /></td>
+				<td><input type="radio" id="day" name="day" value="Sunday" /></td>
+			</tr>			
+			<tr>
+				<td><strong>Time to Send</strong></td>
+				<td colspan="7"><select id="time" name="time">
+                	<option value="00:00">00:00</option>
+                	<option value="01:00">01:00</option>
+                	<option value="02:00">02:00</option>
+                	<option value="03:00">03:00</option>
+                	<option value="04:00">04:00</option>
+                	<option value="05:00">05:00</option>
+                	<option value="06:00">06:00</option>
+                	<option value="07:00">07:00</option>
+                	<option value="08:00">08:00</option>
+                	<option value="09:00">09:00</option>
+                	<option value="10:00">10:00</option>
+                	<option value="11:00">11:00</option>
+                	<option value="12:00">12:00</option>
+                	<option value="10:00">13:00</option>
+                	<option value="11:00">14:00</option>
+                	<option value="12:00">15:00</option>
+                	<option value="10:00">16:00</option>
+                	<option value="11:00">17:00</option>
+                	<option value="12:00">18:00</option>
+                	<option value="10:00">19:00</option>
+                	<option value="11:00">20:00</option>
+                	<option value="12:00">21:00</option>
+                	<option value="10:00">22:00</option>
+                	<option value="11:00">23:00</option>          	                	
+				</select>
+				(Central European Time)</td>
+			</tr>
+			<tr>
+				<td><strong>Start Date</strong></td>
+				<td colspan="7"><input type="text" id="send_date" name="send_date" /></td>
+			</tr>
+		</table>
+		<input type="submit" value="Next" />
+
+</form>
+</div>
+{% endblock %}
