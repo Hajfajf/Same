@@ -85,6 +85,7 @@ class Project(db.Model):
     member_nr = db.IntegerProperty()
     owner_name = db.StringProperty() 
     owner_key = db.StringProperty()
+    survey_key = db.StringProperty()
     confirmed = db.BooleanProperty(default=False)
     register_date = db.DateTimeProperty(auto_now_add=True)
 
@@ -142,6 +143,7 @@ class TeamAdd(webapp.RequestHandler):
 ###Set Survey###
 class Survey(db.Model):
     project = db.StringProperty()
+    project_key = db.StringProperty()
     rt1_name = db.StringProperty()
     rt1_desc = db.StringProperty()
     rt2_name = db.StringProperty()
@@ -165,6 +167,9 @@ class RatingAdd(webapp.RequestHandler):
     def post(self):
         session = sessions.Session()
         survey = Survey()
+        project = Project.get(session["ProjectID"])
+        survey.project = project.name
+        survey.project_key = str(project.key())
         survey.rt1_name = str(self.request.get('rt1_name'))
         survey.rt1_desc = str(self.request.get('rt1_desc'))
         survey.rt2_name = str(self.request.get('rt2_name'))
@@ -179,6 +184,8 @@ class RatingAdd(webapp.RequestHandler):
         survey.rt6_desc = str(self.request.get('rt6_desc'))
         survey.put()
         session["SurveyID"] = survey.key() # sets keyname to value
+        project.survey_key = str(session["SurveyID"])
+        project.put()
         self.redirect('/setup-schedule')
 
 ###Set Schedule###

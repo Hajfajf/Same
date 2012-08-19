@@ -21,7 +21,7 @@ $(function() {
     //add input
     addDiv.click(function() {
         if(i <= 10) {
-            $('<tr class="highlight tm_row"><td></td><td><input type="text" class="tm_first_name" placeholder="First Name" /></td><td><input type="text" class="tm_last_name" placeholder="Last Name" /></td><td><input type="text" class="tm_email" placeholder="Email" /></td><td><div id="remove" onclick="removeRow(this)" ><img id="del_tm" src="/images/delete-icon.png" width="20px" /></div></td></tr>').fadeIn("slow").appendTo('#setup_team');
+            $('<tr class="highlight tm_row"><td></td><td><input type="text" class="tm_first_name" placeholder="First Name" /></td><td><input type="text" class="tm_last_name" placeholder="Last Name" /></td><td><input type="text" class="tm_email" placeholder="Email" /></td><td><div id="remove" onclick="removeRow(this)" style="cursor:pointer" ><img id="del_tm" src="/images/delete-icon.png" width="20px" /></div></td></tr>').fadeIn("slow").appendTo('#setup_team');
 
 
             if(i == 10) {
@@ -50,7 +50,6 @@ function removeRow(element) {
             setTotal();
             }
 }
-
 
 function setTotal() {
     $('#rowcount').empty();
