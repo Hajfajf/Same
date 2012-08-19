@@ -18,7 +18,7 @@ $(function() {
  
     addDiv = $('div#add');
 
-    //add input
+    //add input Function that adds new rows to complete and stops at 10 rows maximum
     addDiv.click(function() {
         if(i <= 10) {
             $('<tr class="highlight tm_row"><td></td><td><input type="text" class="tm_first_name" placeholder="First Name" /></td><td><input type="text" class="tm_last_name" placeholder="Last Name" /></td><td><input type="text" class="tm_email" placeholder="Email" /></td><td><div id="remove" onclick="removeRow(this)" ><img id="del_tm" src="/images/delete-icon.png" width="20px" /></div></td></tr>').fadeIn("slow").appendTo('#setup_team');
@@ -37,7 +37,7 @@ $(function() {
     setTotal();
 });
 
-
+// it removes the parent of the parent (first parent is the column and then the row)
 function removeRow(element) { 
             if(i <= 11) {
                 $(element).parent().parent().remove();
@@ -51,14 +51,14 @@ function removeRow(element) {
             }
 }
 
-
+// automatically updates the number displayed for total members
 function setTotal() {
     $('#rowcount').empty();
     $('#rowcount').append($('#setup_team tr').length - 1 + " Team Members");
     $('#members').attr('value', $('#setup_team tr').length);
 
 }
-
+// Sending data of the form. Get the info by class name and set a specific name for each of them
 function submitForm() {
     $('.tm_row').each(function(index){
         $(this).find(".tm_first_name").attr('name', 'tm' + (index+1) + '_first_name');
