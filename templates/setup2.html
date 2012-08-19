@@ -46,7 +46,7 @@ function removeRow(element) {
             i--;
             }
 }
-
+// automatically tick the box if both entry are filled out
 function checkboxEntry() {
     $('.custRow').each(function(){
         if ($(this).find('.rt_name').attr('value') != "" && $(this).find('.rt_desc').attr('value') != "") {
