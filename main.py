@@ -3,6 +3,7 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.ext.webapp import util, template
 from google.appengine.ext import db
 from appengine_utilities import sessions
+from google.appengine.api import mail
 import datetime
 
 class HomeHandler(webapp.RequestHandler):
@@ -62,6 +63,19 @@ class ConfirmHandler(webapp.RequestHandler):
          }
         self.response.out.write(template.render('templates/setupdone.html', template_values))
 
+class SettingsHandler(webapp.RequestHandler):
+    def get(self, page):
+        project = Project.get(page)
+        survey = Survey.get(project.survey_key)
+        team = TeamMember.all()
+        team.filter("project_key =", str(project.key()))
+        template_values = {
+            'project': project,
+            'survey': survey,
+            'team': team,         
+        }
+        self.response.out.write(template.render('templates/settings.html', template_values))
+
 class ThermoHandler(webapp.RequestHandler):
     def get(self):
         self.response.out.write(template.render('templates/thermo.html', locals()))
@@ -83,7 +97,8 @@ class Project(db.Model):
     company = db.StringProperty()
     department = db.StringProperty()
     member_nr = db.IntegerProperty()
-    owner_name = db.StringProperty() 
+    owner_name = db.StringProperty()
+    owner_email =  db.EmailProperty()
     owner_key = db.StringProperty()
     survey_key = db.StringProperty()
     confirmed = db.BooleanProperty(default=False)
@@ -106,6 +121,7 @@ class OwnerAdd(webapp.RequestHandler):
         project.company = str(self.request.get('company'))
         project.department = str(self.request.get('department'))
         project.owner_name = str(self.request.get('first_name')) + " " + str(self.request.get('last_name'))
+        project.owner_email = self.request.get('email')
         project.owner_key = str(owner.key())
         project.put()
         owner.project_key = str(project.key())
@@ -121,6 +137,7 @@ class TeamMember(db.Model):
     first_name = db.StringProperty()
     last_name = db.StringProperty()
     email = db.EmailProperty()
+    active = db.BooleanProperty(default=True)
     register_date = db.DateTimeProperty(auto_now_add=True)
 
 class TeamAdd(webapp.RequestHandler):
@@ -154,8 +171,6 @@ class Survey(db.Model):
     rt4_desc = db.StringProperty()
     rt5_name = db.StringProperty()
     rt5_desc = db.StringProperty()
-    rt6_name = db.StringProperty()
-    rt6_desc = db.StringProperty()
     send_frequency = db.StringProperty()
     send_day = db.StringProperty()
     send_time = db.StringProperty()
@@ -180,8 +195,6 @@ class RatingAdd(webapp.RequestHandler):
         survey.rt4_desc = str(self.request.get('rt4_desc'))
         survey.rt5_name = str(self.request.get('rt5_name'))
         survey.rt5_desc = str(self.request.get('rt5_desc'))
-        survey.rt6_name = str(self.request.get('rt6_name'))
-        survey.rt6_desc = str(self.request.get('rt6_desc'))
         survey.put()
         session["SurveyID"] = survey.key() # sets keyname to value
         project.survey_key = str(session["SurveyID"])
@@ -210,6 +223,12 @@ class ConfirmSurvey(webapp.RequestHandler):
         project.confirmed = bool('true')
         survey.put()
         project.put()
+        message = mail.EmailMessage(sender = "High Five <jong.vincent@gmail.com>",
+              subject = "Survey Confirmation")
+        message.to = "User Name <vincentjong@hotmail.com>",
+        message.bcc = "Vincent Jong <jong.vincent@gmail.com>",
+        message.body = "test"
+        message.send()
         self.redirect('/setup-confirmed')
 
 def main():
@@ -226,6 +245,7 @@ def main():
         ('/setup-overview', OverviewHandler),
         ('/scripts/confirm', ConfirmSurvey),
         ('/setup-confirmed', ConfirmHandler),
+        ('/settings/(.+)', SettingsHandler),
         ('/thermo', ThermoHandler)], debug=True)
     util.run_wsgi_app(application)
 
