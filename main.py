@@ -3,6 +3,7 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.ext.webapp import util, template
 from google.appengine.ext import db
 from appengine_utilities import sessions
+from django.core.validators import email_re
 import datetime
 
 class HomeHandler(webapp.RequestHandler):
@@ -100,7 +101,10 @@ class OwnerAdd(webapp.RequestHandler):
         owner.company = str(self.request.get('company'))
         owner.department = str(self.request.get('department'))
         owner.project = str(self.request.get('project'))
-        owner.email = self.request.get('email')
+        if email_re.match(self.request.get('email')):
+            owner.email = self.request.get('email')
+        else:
+            print("Email format is not valid") # Replace by sentence below the input to allow edition
         owner.put()
         project.name = str(self.request.get('project'))
         project.company = str(self.request.get('company'))
