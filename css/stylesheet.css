@@ -21,6 +21,12 @@ input {
    padding: 4px;
 }
 
+select {
+   padding-top: 4px;
+   padding-bottom: 4px;
+   padding-right: 4px;
+}
+
 .highlight:hover {
   background-color: #E6E8FA;
 }

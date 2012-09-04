@@ -22,30 +22,25 @@
 		<table id="setup_settings">
 			<tr>
 				<td><strong>Frequency</strong></td>
-				<td colspan="7"><input type="radio" id="frequency" name="frequency" value="Weekly" checked="checked"/>Weekly</td>
+				<td><select id="frequency" name="frequency">
+                	<option value="Weekly">Weekly</option>       	                	
+				</select></td>
 			</tr>
 			<tr>
-				<td rowspan="2" valign="top"><strong>Day to Send</strong></td>
-				<td>Mon</td>
-				<td>Tue</td>
-				<td>Wed</td>
-				<td>Thu</td>
-				<td>Fri</td>
-				<td>Sat</td>
-				<td>Sun</td>
-			</tr>
-			<tr>
-				<td><input type="radio" id="day" name="day" value="Monday" /></td>
-				<td><input type="radio" id="day" name="day" value="Tuesday" /></td>
-				<td><input type="radio" id="day" name="day" value="Wednesday" /></td>
-				<td><input type="radio" id="day" name="day" value="Thursday" /></td>
-				<td><input type="radio" id="day" name="day" value="Friday" /></td>
-				<td><input type="radio" id="day" name="day" value="Saturday" /></td>
-				<td><input type="radio" id="day" name="day" value="Sunday" /></td>
+				<td><strong>Day to Send</strong></td>
+                <td><select id="day" name="day">
+                	<option value="Monday">Monday</option>
+                	<option value="Tuesday">Tuesday</option>
+                	<option value="Wednesday">Wednesday</option>
+                	<option value="Thursday">Thursday</option>
+                	<option value="Friday">Friday</option>
+                	<option value="Saturday">Saturday</option>
+                	<option value="Sunday">Sunday</option>        	                	
+				</select></td>
 			</tr>			
 			<tr>
 				<td><strong>Time to Send</strong></td>
-				<td colspan="7"><select id="time" name="time">
+				<td><select id="time" name="time">
                 	<option value="00:00">00:00</option>
                 	<option value="01:00">01:00</option>
                 	<option value="02:00">02:00</option>

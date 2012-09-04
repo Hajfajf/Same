@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+
+{% block title %}Schedule{% endblock %}
+
+{% block head %}
+<script src="/js/jquery.min.js"></script>
+
+<script type='text/javascript'>
+
+var i = $('#setup_team tr').length + 4;
+
+$(function() {
+    $('#frequency').attr('value', '{{ survey.send_frequency }}');
+    $('#day').attr('value', '{{ survey.send_day }}');
+    $('#time').attr('value', '{{ survey.send_time }}')
+
+    addDiv = $('div#add');
+
+    //add input Function that adds new rows to complete and stops at 10 rows maximum
+    addDiv.click(function() {
+        if(i <= 10) {
+            $('<tr class="highlight"><td></td><td><input type="text" class="tm_first_name" placeholder="First Name" /></td><td><input type="text" class="tm_last_name" placeholder="Last Name" /></td><td><input type="text" class="tm_email" placeholder="Email" /></td><td><div id="remove" style="cursor:pointer" ><img id="del_tm" src="/images/delete-icon.png" width="20px" /></div></td></tr>').fadeIn("slow").appendTo('#setup_team');
+
+
+            if(i == 10) {
+                addDiv.hide();
+                $('div#notification').append($('<div id="max"><p><img src="/images/info-icon.png" width="17px" style="margin-right:10px" />You have reached the maximum team size</p></div>'));
+                $('div#notification').attr('style', '250px');
+            }
+            i++;
+            return false;
+        }
+    });  
+});
+
+</script>
+
+{% endblock %}
+
+{% block content %}
+<h1>Settings</h1> 
+<br />
+
+<div>
+<h2>Project: {{ project.name }}</h2>
+
+<br/>
+
+<form method="post" action="#">
+
+		<table>
+			<tr class="highlight">
+			    <td width="100px"><strong>Schedule</strong></td>
+				<td><strong>Frequency</strong></td>
+				<td><select id="frequency" name="frequency">
+                	<option value="Weekly">Weekly</option>       	                	
+				</select></td>
+			</tr>
+			<tr class="highlight">
+				<td></td>
+				<td><strong>Day to Send</strong></td>
+				<td><select id="day" name="day">
+                	<option value="Monday">Monday</option>
+                	<option value="Tuesday">Tuesday</option>
+                	<option value="Wednesday">Wednesday</option>
+                	<option value="Thursday">Thursday</option>
+                	<option value="Friday">Friday</option>
+                	<option value="Saturday">Saturday</option>
+                	<option value="Sunday">Sunday</option>        	                	
+				</select></td>
+			</tr>			
+			<tr class="highlight">
+				<td></td>
+				<td><strong>Time to Send</strong></td>
+				<td><select id="time" name="time">
+                	<option value="00:00">00:00</option>
+                	<option value="01:00">01:00</option>
+                	<option value="02:00">02:00</option>
+                	<option value="03:00">03:00</option>
+                	<option value="04:00">04:00</option>
+                	<option value="05:00">05:00</option>
+                	<option value="06:00">06:00</option>
+                	<option value="07:00">07:00</option>
+                	<option value="08:00">08:00</option>
+                	<option value="09:00">09:00</option>
+                	<option value="10:00">10:00</option>
+                	<option value="11:00">11:00</option>
+                	<option value="12:00">12:00</option>
+                	<option value="10:00">13:00</option>
+                	<option value="11:00">14:00</option>
+                	<option value="12:00">15:00</option>
+                	<option value="10:00">16:00</option>
+                	<option value="11:00">17:00</option>
+                	<option value="12:00">18:00</option>
+                	<option value="10:00">19:00</option>
+                	<option value="11:00">20:00</option>
+                	<option value="12:00">21:00</option>
+                	<option value="10:00">22:00</option>
+                	<option value="11:00">23:00</option>          	                	
+				</select> (Central European Time)</td>
+			</tr>
+			<tr class="highlight">
+				<td></td>
+				<td><strong>Next Date</strong></td>
+				<td><input type="text" id="send_date" name="send_date" /></td>
+			</tr>
+		</table>
+
+<br/>
+<br/>
+
+		<table>
+			<tr>
+			    <td width="100px"><strong>Ratings</strong></td>
+				<td width="120px"><strong>1. {{ survey.rt1_name }}</strong></td>
+				<td>{{ survey.rt1_desc }}</td>
+			</tr>
+			{% if survey.rt2_name  %}
+			<tr>
+				<td></td>
+				<td><strong>2. {{ survey.rt2_name }}</strong></td>
+				<td>{{ survey.rt2_desc }}</td>
+			</tr>
+			{% endif %}
+			{% if survey.rt3_name  %}
+			<tr>
+				<td></td>
+				<td><strong>3. {{ survey.rt3_name }}</strong></td>
+				<td>{{ survey.rt3_desc }}</td>
+			</tr>
+			{% endif %}
+			{% if survey.rt4_name  %}
+			<tr>
+				<td></td>
+				<td><strong>4. {{ survey.rt4_name }}</strong></td>
+				<td>{{ survey.rt4_desc }}</td>
+			</tr>
+			{% endif %}
+			{% if survey.rt5_name  %}
+			<tr>
+				<td></td>
+				<td><strong>5. {{ survey.rt5_name }}</strong></td>
+				<td>{{ survey.rt5_desc }}</td>
+			</tr>
+			{% endif %}
+			<tr>
+			    <td></td>
+			    <td colspan="2"><a href="#">change ratings</a></td>
+			</tr>
+		</table>
+
+<br/>
+<br/>
+
+		<table id="setup_team">	
+		    <tr>
+		    	<td width="100px"><strong>Team</strong></td>
+				<td><strong>First Name</strong></td>
+				<td><strong>Last Name</strong></td>
+				<td><strong>Email</strong></td>
+				<td></td>
+		    </tr>
+           {% for team in team %}
+		    <tr class="highlight">
+			    <td></td>
+				<td>{{ team.first_name }}</td>
+				<td>{{ team.last_name }}</td>
+				<td>{{ team.email }}</td>
+				<td><div id="remove" style="cursor:pointer" ><img id="del_tm" src="/images/delete-icon.png" width="20px" /></div></td>
+			</tr>
+			{% endfor %}
+		</table>
+		
+		<div id="notification" style="margin-left:20px"><div id="rowcount"></div><div id="add" style="cursor: pointer; width:250px;"><p><img src="/images/plus-icon.png" width="20px" style="margin-right:10px" /> Add another person</p></div></div>
+
+<!-- TO DO:
+    - set team table widths
+    - detach title on left from table
+    - get remove functionality working
+    - filter team active=true
+    - add change rating functionality
+    - connect to backend
+-->
+
+</form>
+</div>
+
+{% endblock %}
